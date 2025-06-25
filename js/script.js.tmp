@@ -1,0 +1,336 @@
+// Toggle mobile menu
+const mobileMenu = document.getElementById("mobile-menu");
+const navLinks = document.querySelector(".nav-links");
+const navLinksContainer = document.getElementById("nav-links-container");
+const navItems = document.querySelectorAll(".nav-links li a");
+
+if (mobileMenu && navLinks) {
+  mobileMenu.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    navItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        navLinks.classList.remove("active");
+        if (mobileMenu) {
+          mobileMenu.classList.remove("active");
+        }
+      });
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const words = ["Brands", "Identities", "Success", "Visions"];
+  const changingWord = document.getElementById("changing-word");
+
+  // Only run typing effect if the element exists
+  if (changingWord) {
+    let wordIndex = 0;
+    let letterIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        changingWord.textContent = currentWord.substring(0, letterIndex - 1);
+        letterIndex--;
+      } else {
+        changingWord.textContent = currentWord.substring(0, letterIndex + 1);
+        letterIndex++;
+      }
+
+      let speed = isDeleting ? 100 : 150;
+
+      if (!isDeleting && letterIndex === currentWord.length) {
+        speed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && letterIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        speed = 800;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+
+    typeEffect();
+  } else {
+
+  }
+
+  //Slideshow
+  const clientLogos = document.querySelectorAll(".client-logo");
+
+  if (clientLogos.length > 0) {
+    let currentIndex = 0;
+
+    function showNextLogo() {
+      clientLogos[currentIndex].classList.remove("active");
+
+      currentIndex = (currentIndex + 1) % clientLogos.length;
+
+      clientLogos[currentIndex].classList.add("active");
+    }
+
+    setInterval(showNextLogo, 2000);
+  } else {
+
+  }
+
+  // Service Filter Functionality
+  const filterTabs = document.querySelectorAll(".filter-tab");
+  const serviceCategories = document.querySelectorAll(".services-category");
+  const servicesContentArea = document.querySelector(".services-content-area");
+  const dotIndicator = document.querySelector(".tab-dot-indicator");
+
+  // Debug information
+
+
+  console.log(
+    "Services content area found:",
+    servicesContentArea ? "Yes" : "No"
+  );
+
+  // List all tabs and categories
+  filterTabs.forEach((tab, index) => {
+
+  });
+
+  serviceCategories.forEach((category, index) => {
+    console.log(
+      `Category ${index + 1}:`,
+      category.getAttribute("data-category"),
+      category.classList.contains("active") ? "(Active)" : "(Inactive)"
+    );
+  });
+
+  // Only proceed if we found the required elements
+  if (filterTabs.length === 0 || serviceCategories.length === 0) {
+    console.error(
+      "Required elements not found. Filter functionality will not work."
+    );
+    return;
+  }
+
+  // Function to move dot indicator
+  function moveDotIndicator(targetTab) {
+    if (!dotIndicator) return;
+
+    // Calculate the relative position
+    const tabOffsetTop = targetTab.offsetTop;
+    const tabHeight = targetTab.offsetHeight;
+
+    // Move the dot to the center of the tab text
+    const dotPosition = tabOffsetTop + tabHeight / 2 - 4; // -4 to center the 8px dot
+
+    // Remove any existing jiggle animation first
+    dotIndicator.classList.remove("jiggle");
+
+    // Set the CSS custom property for the animation
+    dotIndicator.style.setProperty("--dot-y", `${dotPosition}px`);
+
+    // Apply the smooth position transition
+    dotIndicator.style.transform = `translateY(${dotPosition}px)`;
+
+    // Add jiggle animation after a brief delay to let the position settle
+    setTimeout(() => {
+      dotIndicator.classList.add("jiggle");
+
+      // Remove jiggle class after animation completes
+      setTimeout(() => {
+        dotIndicator.classList.remove("jiggle");
+      }, 600);
+    }, 300); // Wait for the position transition to mostly complete
+  }
+
+  // Function to switch service categories
+  function switchServiceCategory(targetCategory) {
+
+
+    // Add loading state
+    if (servicesContentArea) {
+      servicesContentArea.classList.add("loading");
+
+    }
+
+    // Remove active class from all categories
+    serviceCategories.forEach((category) => {
+      const wasActive = category.classList.contains("active");
+      category.classList.remove("active");
+      if (wasActive) {
+        console.log(
+          "🚫 Removed active from:",
+          category.getAttribute("data-category")
+        );
+      }
+    });
+
+    // Remove active class from all tabs
+    filterTabs.forEach((tab) => {
+      const wasActive = tab.classList.contains("active");
+      tab.classList.remove("active");
+      if (wasActive) {
+        console.log(
+          "🚫 Removed active from tab:",
+          tab.getAttribute("data-category")
+        );
+      }
+    });
+
+    // Add active class to clicked tab
+    const activeTab = document.querySelector(
+      `.filter-tab[data-category="${targetCategory}"]`
+    );
+    if (activeTab) {
+      activeTab.classList.add("active");
+
+
+      // Move the dot indicator to the active tab
+      moveDotIndicator(activeTab);
+    } else {
+
+    }
+
+    // Show target category immediately (remove setTimeout for debugging)
+    const targetCategoryEl = document.querySelector(
+      `.services-category[data-category="${targetCategory}"]`
+    );
+    if (targetCategoryEl) {
+      targetCategoryEl.classList.add("active");
+
+      console.log(
+        "✅ Category display style:",
+        window.getComputedStyle(targetCategoryEl).display
+      );
+      console.log(
+        "✅ Category opacity:",
+        window.getComputedStyle(targetCategoryEl).opacity
+      );
+    } else {
+
+    }
+
+    // Remove loading state
+    if (servicesContentArea) {
+      servicesContentArea.classList.remove("loading");
+
+    }
+  }
+
+  // Add click event listeners to all filter tabs
+  filterTabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const category = tab.getAttribute("data-category");
+
+      // Only switch if it's not already active
+      if (!tab.classList.contains("active")) {
+
+        switchServiceCategory(category);
+
+        // Add click animation
+        tab.style.transform = "scale(0.95)";
+        setTimeout(() => {
+          tab.style.transform = "";
+        }, 150);
+      } else {
+
+      }
+    });
+
+    // Add keyboard accessibility
+    tab.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        const category = tab.getAttribute("data-category");
+        if (!tab.classList.contains("active")) {
+          switchServiceCategory(category);
+        }
+      }
+    });
+
+    // Make tabs focusable
+    tab.setAttribute("tabindex", "0");
+    tab.setAttribute("role", "button");
+    tab.setAttribute("aria-pressed", "false");
+  });
+
+  // Update aria-pressed attribute when tabs become active
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "class"
+      ) {
+        const tab = mutation.target;
+        if (tab.classList.contains("filter-tab")) {
+          const isActive = tab.classList.contains("active");
+          tab.setAttribute("aria-pressed", isActive.toString());
+        }
+      }
+    });
+  });
+
+  filterTabs.forEach((tab) => {
+    observer.observe(tab, { attributes: true });
+  });
+
+  // Add smooth scroll behavior when clicking on tabs
+  document.querySelector("#services").style.scrollBehavior = "smooth";
+
+  // Add visual feedback for touch devices
+  filterTabs.forEach((tab) => {
+    tab.addEventListener("touchstart", () => {
+      tab.style.transform = "scale(0.98)";
+    });
+
+    tab.addEventListener("touchend", () => {
+      setTimeout(() => {
+        tab.style.transform = "";
+      }, 100);
+    });
+  });
+
+  // Add intersection observer for service cards animation
+  const serviceCards = document.querySelectorAll(
+    ".services-difference-1to1-card"
+  );
+
+  if ("IntersectionObserver" in window) {
+    const cardObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = "running";
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    serviceCards.forEach((card) => {
+      card.style.animationPlayState = "paused";
+      cardObserver.observe(card);
+    });
+  }
+
+  // Initialize dot position on page load
+  const initialActiveTab = document.querySelector(".filter-tab.active");
+  if (initialActiveTab && dotIndicator) {
+    // Wait a bit for layout to be complete
+    setTimeout(() => {
+      moveDotIndicator(initialActiveTab);
+    }, 100);
+  }
+
+  // Handle window resize to reposition dot
+  window.addEventListener("resize", () => {
+    const currentActiveTab = document.querySelector(".filter-tab.active");
+    if (currentActiveTab && dotIndicator) {
+      moveDotIndicator(currentActiveTab);
+    }
+  });
+});

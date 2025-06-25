@@ -1,0 +1,180 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  width: 100%;
+  grid-auto-rows: 300px;
+  align-items: stretch;
+}
+
+.gallery img,
+.gallery .player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player {
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  height: 100%;
+}
+
+.portfolio-header-main {
+  background-image: url(https://cdn.jsdelivr.net/gh/brandcrafters01/media@main/contact-image.webp);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  text-transform: uppercase;
+  -webkit-box-shadow: 7px 8px 17px 0px rgba(0, 0, 0, 0.28);
+  -moz-box-shadow: 7px 8px 17px 0px rgba(0, 0, 0, 0.28);
+  box-shadow: 7px 8px 17px 0px rgba(0, 0, 0, 0.28);
+}
+
+.portfolio-header-main h1 {
+  font-size: clamp(5rem, 1.4vw, 1rem);
+  letter-spacing: 8px;
+  font-weight: 900;
+  margin: 0;
+  z-index: 1;
+}
+.blur-overlay {
+  position: absolute;
+  width: 100%;
+  height: 200px;
+  backdrop-filter: blur(2px);
+}
+.portfolio-filter-section {
+  padding: 50px 10%;
+  text-align: center;
+}
+
+.filter-buttons {
+  margin-bottom: 30px;
+}
+.filter-buttons .active {
+  background-color: #fcfcfc;
+  color: hsl(0, 0%, 25%);
+  border: 2px solid hsl(0, 0%, 25%);
+  -webkit-tap-highlight-color: transparent;
+}
+.filter-btn {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  text-transform: uppercase;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.portfolio-item {
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.portfolio-item img {
+  transition: transform 0.3s ease;
+}
+
+.portfolio-item img:hover {
+  transform: scale(1.05);
+}
+/* Image Modal Styles */
+.image-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 769px) {
+  footer p {
+    font-size: 14px;
+  }
+}
+@media (min-width: 427px) and (max-width: 760px) {
+  .portfolio-header-main h1 {
+    font-size: clamp(3rem, 5vw, 3rem);
+  }
+  .filter-btn {
+    padding: 1.8% 1.8%;
+    font-size: clamp(0.8rem, 1vw, 2rem);
+    margin-left: 3px;
+  }
+}
+
+@media (max-width: 426px) {
+  .portfolio-filter-section {
+    padding: 50px 6%;
+    text-align: center;
+  }
+  .filter-btn {
+    padding: 2.2% 2.2%;
+    margin: 1px;
+    font-size: clamp(0.8rem, 1.4vw, 1rem);
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .portfolio-header-main h1 {
+    font-size: 3rem;
+    padding: 0 5px;
+  }
+  .portfolio-header-main {
+    height: 150px;
+  }
+  .blur-overlay {
+    height: 150px;
+  }
+  footer p {
+    font-size: 12px;
+  }
+}
+@media (max-width: 376px) {
+  .portfolio-header-main h1 {
+    font-size: 2.4rem;
+    padding: 0 5px;
+  }
+  footer p {
+    font-size: 10px;
+  }
+  .filter-btn {
+    font-size: 10px;
+  }
+}
+@media (max-width: 321px) {
+  .portfolio-header-main h1 {
+    font-size: 2rem;
+    padding: 0 5px;
+  }
+}
